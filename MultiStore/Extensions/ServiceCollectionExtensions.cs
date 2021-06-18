@@ -8,5 +8,9 @@ namespace MultiStore.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        public static void AddUnitOfWork(this IServiceCollection services)
+        {
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+        }
     }
 }
