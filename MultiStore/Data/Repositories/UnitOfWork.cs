@@ -22,14 +22,14 @@ namespace MultiStore.Data.Repositories
             _context = context;
         }
 
-        public IArticleRepository ArticleRepository => (IArticleRepository)(_articleRepository ?? new ArticleRepository());
-        public IArticleRequestRepository ArticleRequestRepository => (IArticleRequestRepository)(_articleRequestRepository ?? new ArticleRequestRepository());
-        public IBrandRepository BrandRepository => (IBrandRepository)(_brandRepository ?? new BrandRepository());
-        public IDepartmentRepository DepartmentRepository => (IDepartmentRepository)(_departmentRepository ?? new DepartmentRepository());
-        public IEmployeeRepository EmployeeRepository => (IEmployeeRepository)(_employeeRepository ?? new EmployeeRepository());
-        public IPurchaseOrderRepository PurchaseOrderRepository => (IPurchaseOrderRepository)(_purchaseOrderRepository ?? new PurchaseOrderRepository());
-        public ISupplierRepository SupplierRepository => (ISupplierRepository)(_supplierRepository ?? new SupplierRepository());
-        public IUnitMeasurementRepository UnitMeasurementRepository => (IUnitMeasurementRepository)(_unitMeasurementRepository ?? new UnitMeasurementRepository());
+        public IArticleRepository ArticleRepository => (IArticleRepository)(_articleRepository ?? new ArticleRepository(_context));
+        public IArticleRequestRepository ArticleRequestRepository => (IArticleRequestRepository)(_articleRequestRepository ?? new ArticleRequestRepository(_context));
+        public IBrandRepository BrandRepository => (IBrandRepository)(_brandRepository ?? new BrandRepository(_context));
+        public IDepartmentRepository DepartmentRepository => (IDepartmentRepository)(_departmentRepository ?? new DepartmentRepository(_context));
+        public IEmployeeRepository EmployeeRepository => (IEmployeeRepository)(_employeeRepository ?? new EmployeeRepository(_context));
+        public IPurchaseOrderRepository PurchaseOrderRepository => (IPurchaseOrderRepository)(_purchaseOrderRepository ?? new PurchaseOrderRepository(_context));
+        public ISupplierRepository SupplierRepository => (ISupplierRepository)(_supplierRepository ?? new SupplierRepository(_context));
+        public IUnitMeasurementRepository UnitMeasurementRepository => (IUnitMeasurementRepository)(_unitMeasurementRepository ?? new UnitMeasurementRepository(_context));
 
         public void Dispose()
         {

@@ -5,5 +5,6 @@ namespace MultiStore.Data.Repositories
 {
     public class DepartmentRepository : BaseRepository<Department>, IDepartmentRepository
     {
+        public DepartmentRepository(ApplicationDbContext context) : base(context) { }
     }
 }

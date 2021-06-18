@@ -5,5 +5,6 @@ namespace MultiStore.Data.Repositories
 {
     public class BrandRepository : BaseRepository<Brand>, IBrandRepository
     {
+        public BrandRepository(ApplicationDbContext context) : base(context) { }
     }
 }

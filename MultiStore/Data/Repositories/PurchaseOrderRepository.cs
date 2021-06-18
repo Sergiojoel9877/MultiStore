@@ -5,5 +5,6 @@ namespace MultiStore.Data.Repositories
 {
     public class PurchaseOrderRepository : BaseRepository<PurchaseOrder>, IPurchaseOrderRepository
     {
+        public PurchaseOrderRepository(ApplicationDbContext context) : base(context) { }
     }
 }
