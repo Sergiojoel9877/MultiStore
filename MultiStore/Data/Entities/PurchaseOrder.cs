@@ -2,7 +2,6 @@
 {
     public class PurchaseOrder : BaseEntity
     {
-        public int Id { get; set; }
         public int OrderNumber { get; set; }
         public int Stock { get; set; }
         public int UnitCost { get; set; }
