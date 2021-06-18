@@ -12,6 +12,11 @@ namespace MultiStore.Data.Repositories
     {
         protected readonly DbSet<T> _entities;
 
+        public BaseRepository(ApplicationDbContext context)
+        {
+            _entities = context.Set<T>();
+        }
+
         public async Task Add(T entity)
         {
             await _entities.AddAsync(entity);
