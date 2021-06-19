@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiStore.Data.Entities;
 using MultiStore.Interfaces.Services;
@@ -18,47 +21,72 @@ namespace MultiStore.Controllers
             _employeeService = employeeService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var data = await _employeeService.GetAll();
+            return View(data.ToList());
         }
 
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var data = await _employeeService.Get(id);
             return View(data);
         }
 
-        public async Task<IActionResult> Get()
+        public IActionResult Create()
         {
-            var data = await _employeeService.GetAll();
-            return View(data);
-        }
-
-        public async Task<IActionResult> Post([FromBody] Employee employee)
-        {
-            if (employee == null)
-                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-
-            await _employeeService.Create(employee);
             return View();
         }
 
-        public async Task<IActionResult> Put([FromBody] Employee employee)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] Employee supplier, IFormCollection formColelction)
         {
-            if (employee == null)
+            if (supplier == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _employeeService.Update(employee);
+            await _employeeService.Create(supplier);
             return View();
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Edit()
         {
-            if (id < 0)
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromForm] Employee supplier)
+        {
+            if (supplier == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _employeeService.Delete(id);
+            Employee s = new Employee()
+            {
+                Id = supplier.Id,
+                CreatedDate = supplier.CreatedDate,
+                IsActive = supplier.IsActive,
+                LastUpdatedDate = supplier.LastUpdatedDate,
+
+            };
+            _employeeService.Delete(supplier.Id);
+            _employeeService.Create(s);
+            return View();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var data = _employeeService.Get(id);
+            return View(data.Result);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([FromForm] Employee supplier)
+        {
+            if (supplier.Id < 0)
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+            await _employeeService.Delete(supplier.Id);
             return View();
         }
     }

@@ -1,5 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MultiStore.Data.Entities;
 using MultiStore.Interfaces.Services;
@@ -13,52 +16,77 @@ namespace MultiStore.Controllers
     {
         readonly IDepartmentService _departmentService;
 
-        public DepartmentController(IDepartmentService departmentService)
+        public DepartmentController(IDepartmentService supplierService)
         {
-            _departmentService = departmentService;
+            _departmentService = supplierService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var data = await _departmentService.GetAll();
+            return View(data.ToList());
         }
 
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var data = await _departmentService.Get(id);
             return View(data);
         }
 
-        public async Task<IActionResult> Get()
+        public IActionResult Create()
         {
-            var data = await _departmentService.GetAll();
-            return View(data);
-        }
-
-        public async Task<IActionResult> Post([FromBody] Department department)
-        {
-            if (department == null)
-                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-
-            await _departmentService.Create(department);
             return View();
         }
 
-        public async Task<IActionResult> Put([FromBody] Department department)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] Department supplier, IFormCollection formColelction)
         {
-            if (department == null)
+            if (supplier == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _departmentService.Update(department);
+            await _departmentService.Create(supplier);
             return View();
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Edit()
         {
-            if (id < 0)
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromForm] Department supplier)
+        {
+            if (supplier == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _departmentService.Delete(id);
+            Department s = new Department()
+            {
+                Id = supplier.Id,
+               
+                CreatedDate = supplier.CreatedDate,
+                IsActive = supplier.IsActive,
+                LastUpdatedDate = supplier.LastUpdatedDate,
+            };
+            _departmentService.Delete(supplier.Id);
+            _departmentService.Create(s);
+            return View();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var data = _departmentService.Get(id);
+            return View(data.Result);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([FromForm] Department supplier)
+        {
+            if (supplier.Id < 0)
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+            await _departmentService.Delete(supplier.Id);
             return View();
         }
     }

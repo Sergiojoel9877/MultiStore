@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MultiStore.Data.Entities;
@@ -18,24 +19,25 @@ namespace MultiStore.Controllers
             _brandService = brandService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var data = await _brandService.GetAll();
+            return View(data.ToList());
         }
 
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var data = await _brandService.Get(id);
             return View(data);
         }
 
-        public async Task<IActionResult> Get()
+        public IActionResult Create()
         {
-            var data = await _brandService.GetAll();
-            return View(data);
+            return View();
         }
 
-        public async Task<IActionResult> Post([FromBody] Brand brand)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] Brand brand)
         {
             if (brand == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
@@ -44,21 +46,47 @@ namespace MultiStore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Put([FromBody] Brand brand)
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromForm] Brand brand)
         {
             if (brand == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _brandService.Update(brand);
+            Brand s = new Brand()
+            {
+                Id = brand.Id,
+                Articles = brand.Articles,
+                
+                CreatedDate = brand.CreatedDate,
+                IsActive = brand.IsActive,
+                LastUpdatedDate = brand.LastUpdatedDate,
+
+            };
+            _brandService.Delete(brand.Id);
+            _brandService.Create(s);
             return View();
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            if (id < 0)
+            var data = _brandService.Get(id);
+            return View(data.Result);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([FromForm] Brand brand)
+        {
+            if (brand.Id < 0)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _brandService.Delete(id);
+            await _brandService.Delete(brand.Id);
             return View();
         }
     }

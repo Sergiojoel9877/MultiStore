@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MultiStore.Data.Entities;
@@ -18,47 +19,63 @@ namespace MultiStore.Controllers
             _articleRequestService = articleRequestService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var data = await _articleRequestService.GetAll();
+            return View(data.ToList());
         }
 
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var data = await _articleRequestService.Get(id);
             return View(data);
         }
 
-        public async Task<IActionResult> Get()
+        public IActionResult Create()
         {
-            var data = await _articleRequestService.GetAll();
-            return View(data);
-        }
-
-        public async Task<IActionResult> Post([FromBody] ArticleRequest articleRequest)
-        {
-            if (articleRequest == null)
-                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-
-            await _articleRequestService.Create(articleRequest);
             return View();
         }
 
-        public async Task<IActionResult> Put([FromBody] ArticleRequest articleRequest)
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] ArticleRequest supplier)
         {
-            if (articleRequest == null)
+            if (supplier == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _articleRequestService.Update(articleRequest);
+            await _articleRequestService.Create(supplier);
             return View();
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Edit()
         {
-            if (id < 0)
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromForm] ArticleRequest supplier)
+        {
+            if (supplier == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _articleRequestService.Delete(id);
+            _articleRequestService.Delete(supplier.Id);
+            return View();
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var data = _articleRequestService.Get(id);
+            return View(data.Result);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete([FromForm] ArticleRequest supplier)
+        {
+            if (supplier.Id < 0)
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+            await _articleRequestService.Delete(supplier.Id);
             return View();
         }
     }

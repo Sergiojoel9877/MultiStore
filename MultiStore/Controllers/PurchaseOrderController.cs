@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MultiStore.Data.Entities;
 using MultiStore.Interfaces.Services;
 using MultiStore.Models;
+using System.Linq;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,15 +19,31 @@ namespace MultiStore.Controllers
             _purchaseOrderService = purchaseOrderService;
         }
 
-        public IActionResult Index()
+        public  async Task<IActionResult> Index()
         {
-            return View();
+            var data = await _purchaseOrderService.GetAll();
+            return View(data.ToList());
         }
 
         public async Task<IActionResult> Get(int id)
         {
             var data = await _purchaseOrderService.Get(id);
             return View(data);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([FromForm] PurchaseOrder purchaseOrder)
+        {
+            if (purchaseOrder == null)
+                return View(new ErrorViewModel { RequestId = Activity.Current.Id });
+            await _purchaseOrderService.Create(purchaseOrder);
+            return View();
+        }
+
+        public IActionResult Create()
+        {
+            return View();
         }
 
         public async Task<IActionResult> Get()
@@ -44,12 +61,12 @@ namespace MultiStore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Put([FromBody] PurchaseOrder purchaseOrder)
+        public IActionResult Put([FromBody] PurchaseOrder purchaseOrder)
         {
             if (purchaseOrder == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _purchaseOrderService.Update(purchaseOrder);
+            _purchaseOrderService.Update(purchaseOrder);
             return View();
         }
 
