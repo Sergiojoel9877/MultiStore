@@ -52,9 +52,8 @@ namespace MultiStore.Services
             }
         }
 
-        public async Task Update(ArticleRequest article)
+        public void Update(ArticleRequest article)
         {
-            await Task.Yield();
             UnitOfWork.ArticleRequestRepository.Update(article);
         }
 
