@@ -23,19 +23,19 @@ namespace MultiStore.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var data = await _articleService.Get(id);
             return View(data);
         }
 
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get()
         {
             var data = await _articleService.GetAll();
             return View(data);
         }
 
-        public async Task<IActionResult> PostArticle([FromBody] Article article)
+        public async Task<IActionResult> Post([FromBody] Article article)
         {
             if(article == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
