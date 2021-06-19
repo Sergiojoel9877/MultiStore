@@ -12,6 +12,14 @@
     <None Remove="Extensions\" />
     <None Remove="Services\" />
     <None Remove="Interfaces\Services\" />
+    <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <None Remove="Views\Article\" />
+    <None Remove="Views\ArticleRequest\" />
+    <None Remove="Views\Brand\" />
+    <None Remove="Views\Department\" />
+    <None Remove="Views\Employee\" />
+    <None Remove="Views\PurchaseOrder\" />
+    <None Remove="Views\Supplier\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -26,11 +34,19 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Services\" />
     <Folder Include="Interfaces\Services\" />
+    <Folder Include="Views\Article\" />
+    <Folder Include="Views\ArticleRequest\" />
+    <Folder Include="Views\Brand\" />
+    <Folder Include="Views\Department\" />
+    <Folder Include="Views\Employee\" />
+    <Folder Include="Views\PurchaseOrder\" />
+    <Folder Include="Views\Supplier\" />
   </ItemGroup>
 </Project>
