@@ -10,6 +10,7 @@
     <None Remove="Microsoft.EntityFrameworkCore" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Extensions\" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
@@ -28,5 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Extensions\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 </Project>
