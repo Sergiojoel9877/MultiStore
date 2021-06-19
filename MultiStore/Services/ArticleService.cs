@@ -9,15 +9,12 @@ using MultiStore.Interfaces.Services;
 
 namespace MultiStore.Services
 {
-    public class ArticleService : IArticleService
+    public class ArticleService : BaseService, IArticleService
     {
         bool disposedValue;
 
-        readonly UnitOfWork UnitOfWork;
-
-        public ArticleService(IUnitOfWork unitOfWork)
+        public ArticleService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            UnitOfWork = (UnitOfWork)unitOfWork;
         }
 
         public async Task Create(Article entity)

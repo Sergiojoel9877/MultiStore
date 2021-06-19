@@ -8,15 +8,12 @@ using MultiStore.Interfaces.Services;
 
 namespace MultiStore.Services
 {
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService : BaseService, IEmployeeService
     {
         bool disposedValue;
 
-        readonly UnitOfWork UnitOfWork;
-
-        public EmployeeService(IUnitOfWork unitOfWork)
+        public EmployeeService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            UnitOfWork = (UnitOfWork)unitOfWork;
         }
 
         public async Task Create(Employee entity)
