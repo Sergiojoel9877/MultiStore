@@ -43,7 +43,7 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _brandService.Create(brand);
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit()
@@ -70,7 +70,7 @@ namespace MultiStore.Controllers
             };
             _brandService.Delete(brand.Id);
             _brandService.Create(s);
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
@@ -87,7 +87,7 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _brandService.Delete(brand.Id);
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

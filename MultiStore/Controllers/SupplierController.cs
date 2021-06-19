@@ -39,13 +39,13 @@ namespace MultiStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] Supplier supplier, IFormCollection formColelction)
+        public async Task<IActionResult> Create([FromForm] Supplier supplier)
         {
             if (supplier == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _supplierService.Create(supplier);
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit()
@@ -73,7 +73,7 @@ namespace MultiStore.Controllers
             };
             _supplierService.Delete(supplier.Id);
             _supplierService.Create(s);
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
@@ -90,7 +90,7 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _supplierService.Delete(supplier.Id);
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }
