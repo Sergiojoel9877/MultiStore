@@ -10,7 +10,7 @@ namespace MultiStore.Interfaces.Services
         Task Create(T entity);
         Task<T> Get(int id);
         Task<IEnumerable<T>> GetAll();
-        Task Update(T article);
+        void Update(T article);
         Task Delete(int id);
     }
 }
