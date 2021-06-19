@@ -15,7 +15,7 @@ namespace MultiStore.Data.Config
 
             builder.HasIndex(b => b.IdentityCard)
                 .IsUnique()
-                .IsClustered();
+                .IsClustered(false);
 
             builder.Property(b => b.FirstName)
                 .IsRequired()
