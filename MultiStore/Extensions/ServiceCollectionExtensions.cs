@@ -17,6 +17,13 @@ namespace MultiStore.Extensions
 
         public static void AddServices(this IServiceCollection services)
         {
+            services.AddSingleton<IArticleService, ArticleService>();
+            services.AddSingleton<IArticleRequestService, ArticleRequestService>();
+            services.AddSingleton<IBrandService, BrandService>();
+            services.AddSingleton<IDepartmentService, DepartmentService>();
+            services.AddSingleton<IEmployeeService, EmployeeService>();
+            services.AddSingleton<IPurchaseOrderService, PurchaseOrderService>();
+            services.AddSingleton<ISupplierService, SupplierService>();
         }
     }
 }
