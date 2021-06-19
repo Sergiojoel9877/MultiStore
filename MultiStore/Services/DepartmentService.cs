@@ -52,9 +52,8 @@ namespace MultiStore.Services
             }
         }
 
-        public async Task Update(Department article)
+        public void Update(Department article)
         {
-            await Task.Yield();
             UnitOfWork.DepartmentRepository.Update(article);
         }
 

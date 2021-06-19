@@ -52,9 +52,8 @@ namespace MultiStore.Services
             }
         }
 
-        public async Task Update(PurchaseOrder article)
+        public void Update(PurchaseOrder article)
         {
-            await Task.Yield();
             UnitOfWork.PurchaseOrderRepository.Update(article);
         }
 

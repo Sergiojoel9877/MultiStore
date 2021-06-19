@@ -52,10 +52,10 @@ namespace MultiStore.Services
             }
         }
 
-        public async Task Update(Supplier article)
+        public void Update(Supplier article)
         {
-            await Task.Yield();
             UnitOfWork.SupplierRepository.Update(article);
+            UnitOfWork.SaveChanges();
         }
 
         protected virtual void Dispose(bool disposing)
