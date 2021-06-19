@@ -63,22 +63,8 @@ namespace MultiStore.Controllers
             if (brand == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            Brand s = new Brand()
-            {
-                Id = brand.Id,
-                Articles = brand.Articles,
-                
-                CreatedDate = brand.CreatedDate,
-                IsActive = brand.IsActive,
-                LastUpdatedDate = brand.LastUpdatedDate,
-
-            };
-            _brandService.Delete(brand.Id);
-            _brandService.Create(s);
-            return RedirectToAction("Index");
             _brandService.Update(brand);
-
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
