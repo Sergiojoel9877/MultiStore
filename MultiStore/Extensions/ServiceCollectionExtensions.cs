@@ -12,18 +12,18 @@ namespace MultiStore.Extensions
     {
         public static void AddUnitOfWork(this IServiceCollection services)
         {
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddSingleton<IArticleService, ArticleService>();
-            services.AddSingleton<IArticleRequestService, ArticleRequestService>();
-            services.AddSingleton<IBrandService, BrandService>();
-            services.AddSingleton<IDepartmentService, DepartmentService>();
-            services.AddSingleton<IEmployeeService, EmployeeService>();
-            services.AddSingleton<IPurchaseOrderService, PurchaseOrderService>();
-            services.AddSingleton<ISupplierService, SupplierService>();
+            services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<IArticleRequestService, ArticleRequestService>();
+            services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<IDepartmentService, DepartmentService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
+            services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
+            services.AddScoped<ISupplierService, SupplierService>();
         }
     }
 }
