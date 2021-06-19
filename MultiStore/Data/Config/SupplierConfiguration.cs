@@ -15,7 +15,7 @@ namespace MultiStore.Data.Config
 
             builder.HasIndex(b => b.NationalTaxPayerRegistry)
                 .IsUnique()
-                .IsClustered();
+                .IsClustered(false);
 
             builder.Property(b => b.CommercialName)
                 .IsRequired()
