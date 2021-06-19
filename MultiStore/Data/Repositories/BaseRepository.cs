@@ -30,7 +30,7 @@ namespace MultiStore.Data.Repositories
 
         public IEnumerable<T> GetAll()
         {
-            return _entities.AsEnumerable();
+            return _entities.AsNoTracking().AsEnumerable();
         }
 
         public async Task<T> GetById(int id)
