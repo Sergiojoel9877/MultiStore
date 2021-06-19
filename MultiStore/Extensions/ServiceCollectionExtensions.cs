@@ -24,6 +24,7 @@ namespace MultiStore.Extensions
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
             services.AddScoped<ISupplierService, SupplierService>();
+            services.AddScoped<IUnitMeasurementService, UnitMeasurementService>();
         }
     }
 }
