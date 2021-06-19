@@ -41,12 +41,5 @@
     <Folder Include="Extensions\" />
     <Folder Include="Services\" />
     <Folder Include="Interfaces\Services\" />
-    <Folder Include="Views\Article\" />
-    <Folder Include="Views\ArticleRequest\" />
-    <Folder Include="Views\Brand\" />
-    <Folder Include="Views\Department\" />
-    <Folder Include="Views\Employee\" />
-    <Folder Include="Views\PurchaseOrder\" />
-    <Folder Include="Views\Supplier\" />
   </ItemGroup>
 </Project>
