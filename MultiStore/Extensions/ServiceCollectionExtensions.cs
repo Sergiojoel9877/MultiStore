@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using MultiStore.Data.Entities;
 using MultiStore.Data.Repositories;
 using MultiStore.Interfaces.Repositories;
+using MultiStore.Interfaces.Services;
+using MultiStore.Services;
 
 namespace MultiStore.Extensions
 {
@@ -11,6 +13,10 @@ namespace MultiStore.Extensions
         public static void AddUnitOfWork(this IServiceCollection services)
         {
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
+        }
+
+        public static void AddServices(this IServiceCollection services)
+        {
         }
     }
 }
