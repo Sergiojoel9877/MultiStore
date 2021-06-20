@@ -8,7 +8,6 @@ using MultiStore.Data.Entities;
 using MultiStore.Interfaces.Services;
 using MultiStore.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MultiStore.Controllers
 {
@@ -16,9 +15,9 @@ namespace MultiStore.Controllers
     {
         readonly IDepartmentService _departmentService;
 
-        public DepartmentController(IDepartmentService supplierService)
+        public DepartmentController(IDepartmentService departmentService)
         {
-            _departmentService = supplierService;
+            _departmentService = departmentService;
         }
 
         public async Task<IActionResult> Index()
@@ -39,37 +38,39 @@ namespace MultiStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] Department supplier, IFormCollection formColelction)
+        public async Task<IActionResult> Create([FromForm] Department department, IFormCollection formColelction)
         {
-            if (supplier == null)
+            if (department == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _departmentService.Create(supplier);
+            await _departmentService.Create(department);
             return View();
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(int id)
+
         {
-            return View();
+
+            var department = await _departmentService.Get(id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return View(department);
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromForm] Department supplier)
+        public IActionResult Edit([FromForm] Department department)
         {
-            if (supplier == null)
+            if (department == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+ 
+            _departmentService.Update(department);
 
-            Department s = new Department()
-            {
-                Id = supplier.Id,
-               
-                CreatedDate = supplier.CreatedDate,
-                IsActive = supplier.IsActive,
-                LastUpdatedDate = supplier.LastUpdatedDate,
-            };
-            _departmentService.Delete(supplier.Id);
-            _departmentService.Create(s);
             return View();
         }
 

@@ -6,7 +6,6 @@ using MultiStore.Data.Entities;
 using MultiStore.Interfaces.Services;
 using MultiStore.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MultiStore.Controllers
 {
@@ -46,9 +45,18 @@ namespace MultiStore.Controllers
             return View();
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(int id)
+
         {
-            return View();
+
+            var brand = await _brandService.Get(id);
+
+            if (brand == null)
+            {
+                return NotFound();
+            }
+
+            return View(brand);
         }
 
         [HttpPost]
@@ -58,18 +66,7 @@ namespace MultiStore.Controllers
             if (brand == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            Brand s = new Brand()
-            {
-                Id = brand.Id,
-                Articles = brand.Articles,
-                
-                CreatedDate = brand.CreatedDate,
-                IsActive = brand.IsActive,
-                LastUpdatedDate = brand.LastUpdatedDate,
-
-            };
-            _brandService.Delete(brand.Id);
-            _brandService.Create(s);
+            _brandService.Update(brand);
             return View();
         }
 

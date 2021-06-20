@@ -46,6 +46,23 @@ namespace MultiStore.Controllers
             return View();
         }
 
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var purchaseOrder = await _purchaseOrderService.Get(id);
+
+            if (purchaseOrder == null)
+            {
+                return NotFound();
+            }
+
+            return View(purchaseOrder);
+        }
+
         public async Task<IActionResult> Get()
         {
             var data = await _purchaseOrderService.GetAll();
