@@ -8,7 +8,6 @@ using MultiStore.Data.Entities;
 using MultiStore.Interfaces.Services;
 using MultiStore.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace MultiStore.Controllers
 {
@@ -48,9 +47,18 @@ namespace MultiStore.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(int id)
+
         {
-            return View();
+           
+            var unitmeasurement = await _unitMeasurementService.Get(id);
+
+            if (unitmeasurement == null)
+            {
+                return NotFound();
+            }
+
+            return View(unitmeasurement);
         }
 
         [HttpPost]
@@ -60,16 +68,9 @@ namespace MultiStore.Controllers
             if (unitMeasurement == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            UnitMeasurement s = new UnitMeasurement()
-            {
-                Id = unitMeasurement.Id,
-                Articles = unitMeasurement.Articles,
-                CreatedDate = unitMeasurement.CreatedDate,
-                IsActive = unitMeasurement.IsActive,
-                LastUpdatedDate = unitMeasurement.LastUpdatedDate,
-            };
-            _unitMeasurementService.Delete(unitMeasurement.Id);
-            _unitMeasurementService.Create(s);
+ 
+            _unitMeasurementService.Update(unitMeasurement);
+
             return RedirectToAction("Index");
         }
 

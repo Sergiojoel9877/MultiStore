@@ -6,6 +6,7 @@ using MultiStore.Data.Entities;
 using MultiStore.Interfaces.Services;
 using MultiStore.Models;
 
+
 namespace MultiStore.Controllers
 {
     public class BrandController : Controller
@@ -45,13 +46,18 @@ namespace MultiStore.Controllers
         }
 
         public async Task<IActionResult> Edit(int id)
+
         {
+
             var brand = await _brandService.Get(id);
 
             if (brand == null)
             {
                 return NotFound();
             }
+
+            return View(brand);
+        }
 
             return View(brand);
         }
@@ -65,7 +71,7 @@ namespace MultiStore.Controllers
 
             _brandService.Update(brand);
             return RedirectToAction("Index");
-        }
+    }
 
         public IActionResult Delete(int id)
         {

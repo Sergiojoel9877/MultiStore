@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MultiStore.Data;
 using MultiStore.Data.Entities;
-using MultiStore.Data.Repositories;
 using MultiStore.Interfaces.Repositories;
 using MultiStore.Interfaces.Services;
 
@@ -56,6 +54,7 @@ namespace MultiStore.Services
         public void Update(Article article)
         {
             UnitOfWork.ArticleRepository.Update(article);
+            UnitOfWork.SaveChanges();
         }
 
         protected virtual void Dispose(bool disposing)

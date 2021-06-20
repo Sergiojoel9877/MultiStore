@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MultiStore.Data.Entities;
-using MultiStore.Data.Repositories;
 using MultiStore.Interfaces.Repositories;
 using MultiStore.Interfaces.Services;
 

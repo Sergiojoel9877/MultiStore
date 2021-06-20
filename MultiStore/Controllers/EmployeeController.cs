@@ -8,8 +8,6 @@ using MultiStore.Data.Entities;
 using MultiStore.Interfaces.Services;
 using MultiStore.Models;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace MultiStore.Controllers
 {
     public class EmployeeController : Controller
@@ -48,28 +46,27 @@ namespace MultiStore.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Edit()
+        public async Task<IActionResult> Edit(int id)
         {
             return View();
+
+            var employee = await _employeeService.Get(id);
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return View(employee);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromForm] Employee supplier)
+        public IActionResult Edit([FromForm] Employee employee)
         {
-            if (supplier == null)
-                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+           
+            _employeeService.Update(employee);
 
-            Employee s = new Employee()
-            {
-                Id = supplier.Id,
-                CreatedDate = supplier.CreatedDate,
-                IsActive = supplier.IsActive,
-                LastUpdatedDate = supplier.LastUpdatedDate,
-
-            };
-            _employeeService.Delete(supplier.Id);
-            _employeeService.Create(s);
             return RedirectToAction("Index");
         }
 

@@ -51,15 +51,30 @@ namespace MultiStore.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromForm] PurchaseOrder purchaseOrder)
+        public IActionResult Edit()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var purchaseOrder = await _purchaseOrderService.Get(id);
+
+            if (purchaseOrder == null)
+            {
+                return NotFound();
+            }
+
+            return View(purchaseOrder);
+        }
+
+        public async Task<IActionResult> Get()
         {
             if (purchaseOrder == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            _purchaseOrderService.Update(purchaseOrder);
-            return RedirectToAction("Index");
+            await _purchaseOrderService.Create(purchaseOrder);
+            return View();
         }
 
         public IActionResult Delete(int id)
