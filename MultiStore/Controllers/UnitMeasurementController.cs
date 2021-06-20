@@ -38,13 +38,13 @@ namespace MultiStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] UnitMeasurement unitMeasurement, IFormCollection formColelction)
+        public async Task<IActionResult> Create([FromForm] UnitMeasurement unitMeasurement)
         {
             if (unitMeasurement == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _unitMeasurementService.Create(unitMeasurement);
-            return View();
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -71,7 +71,7 @@ namespace MultiStore.Controllers
  
             _unitMeasurementService.Update(unitMeasurement);
 
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
@@ -88,7 +88,7 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _unitMeasurementService.Delete(unitMeasurement.Id);
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

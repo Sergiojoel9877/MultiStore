@@ -25,10 +25,15 @@ namespace MultiStore.Controllers
             return View(data.ToList());
         }
 
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Details(int id)
         {
             var data = await _purchaseOrderService.Get(id);
             return View(data);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
         }
 
         [HttpPost]
@@ -38,10 +43,10 @@ namespace MultiStore.Controllers
             if (purchaseOrder == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current.Id });
             await _purchaseOrderService.Create(purchaseOrder);
-            return View();
+            return RedirectToAction("Index");
         }
 
-        public IActionResult Create()
+        public IActionResult Edit()
         {
             return View();
         }
@@ -65,12 +70,6 @@ namespace MultiStore.Controllers
 
         public async Task<IActionResult> Get()
         {
-            var data = await _purchaseOrderService.GetAll();
-            return View(data);
-        }
-
-        public async Task<IActionResult> Post([FromBody] PurchaseOrder purchaseOrder)
-        {
             if (purchaseOrder == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
@@ -78,22 +77,19 @@ namespace MultiStore.Controllers
             return View();
         }
 
-        public IActionResult Put([FromBody] PurchaseOrder purchaseOrder)
+        public IActionResult Delete(int id)
         {
-            if (purchaseOrder == null)
-                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-
-            _purchaseOrderService.Update(purchaseOrder);
-            return View();
+            var data = _purchaseOrderService.Get(id);
+            return View(data.Result);
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete([FromForm] PurchaseOrder purchaseOrder)
         {
-            if (id < 0)
+            if (purchaseOrder.Id < 0)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _purchaseOrderService.Delete(id);
-            return View();
+            await _purchaseOrderService.Delete(purchaseOrder.Id);
+            return RedirectToAction("Index");
         }
     }
 }

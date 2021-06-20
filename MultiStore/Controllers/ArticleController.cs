@@ -38,13 +38,13 @@ namespace MultiStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] Article Article, IFormCollection formColelction)
+        public async Task<IActionResult> Create([FromForm] Article Article)
         {
             if (Article == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _articleService.Create(Article);
-            return View();
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -86,7 +86,7 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _articleService.Delete(Article.Id);
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

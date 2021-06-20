@@ -42,7 +42,7 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _brandService.Create(brand);
-            return View();
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -59,6 +59,9 @@ namespace MultiStore.Controllers
             return View(brand);
         }
 
+            return View(brand);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromForm] Brand brand)
@@ -67,8 +70,8 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             _brandService.Update(brand);
-            return View();
-        }
+            return RedirectToAction("Index");
+    }
 
         public IActionResult Delete(int id)
         {
@@ -84,7 +87,7 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _brandService.Delete(brand.Id);
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

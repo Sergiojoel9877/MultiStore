@@ -43,8 +43,8 @@ namespace MultiStore.Controllers
             if (department == null)
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
-            await _departmentService.Create(department);
-            return View();
+            await _departmentService.Create(supplier);
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -71,7 +71,7 @@ namespace MultiStore.Controllers
  
             _departmentService.Update(department);
 
-            return View();
+            return RedirectToAction("Index");
         }
 
         public IActionResult Delete(int id)
@@ -88,7 +88,7 @@ namespace MultiStore.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 
             await _departmentService.Delete(supplier.Id);
-            return View();
+            return RedirectToAction("Index");
         }
     }
 }

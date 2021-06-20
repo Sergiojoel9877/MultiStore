@@ -5,7 +5,7 @@ namespace MultiStore.Data.Entities
 {
     public class Employee : BaseEntity
     {
-        public int IdentityCard { get; set; } //TODO : Change to string
+        public string IdentityCard { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth  { get; set; }
